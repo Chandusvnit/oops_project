@@ -43,7 +43,10 @@ router.post(
     if (!email || !password) return res.status(400).json({ error: 'email and password are required' });
 
     const user = await User.findOne({ email });
-    if (!user) return res.status(401).json({ error: 'Invalid credentials' });
+    // Guard against missing user or missing passwordHash to avoid bcrypt throwing
+    if (!user || !user.passwordHash) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
 
     const ok = await bcrypt.compare(password, user.passwordHash);
     if (!ok) return res.status(401).json({ error: 'Invalid credentials' });
