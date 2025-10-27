@@ -5,6 +5,9 @@ import { connectDB, disconnectDB } from '../utils/db.js';
 import User from '../models/User.js';
 import Complaint from '../models/complaint.js';
 
+// don't run it , it was just for injecting some test data for development
+
+
 async function run() {
   await connectDB(process.env.MONGO_URI);
 
